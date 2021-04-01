@@ -11,13 +11,13 @@ const bodyParser = require('body-parser');
 module.exports = NodeHelper.create({
 
     start: function() {
-
+Log
         console.log(this.name + ' is started');
 
         this.expressApp.use(bodyParser.json()); // support json encoded bodies
         this.expressApp.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-        this.expressApp.post('/kalliope', (req, res) => {
+        this.expressApp.post('/myroft', (req, res) => {
             if (req.body.notification){
                 if (req.body.payload){
                     payload = req.body.payload

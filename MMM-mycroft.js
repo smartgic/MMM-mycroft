@@ -1,5 +1,13 @@
 /* global Module */
 
+/* Magic Mirror
+ * Module: MMM-Mycroft
+ *
+ * Fork from https://github.com/kalliope-project/MMM-kalliope
+ * Modified by Gaëtan Trellu
+ * MIT Licensed.
+ */
+
 class Message {
     constructor(text) {
         this.text = text;
@@ -7,32 +15,41 @@ class Message {
     }
 }
 
-Module.register('MMM-kalliope',{
-    // list of messages to print on the screen
-    messages: [],
+Module.register('MMM-mycroft',{
 
-    // Default module config.
-	defaults: {
+	requiresVersion: "2.12.0",
+
+    defaults: {
+		updateInterval: 1000,
         max: 5,
         keep_seconds: 5,
-        title: "Kalliope"
+        title: "Mycroft",
+        image: "modules/MMM-mycroft/images/mycroft.png"
     },
 
+    /* Initiate messages list variable.
+     * This will be the list of messages to display on the screen.
+     */
+    messages: [],
+
     start: function() {
-        // need to connect to the node helper
-        this.sendSocketNotification("CONNECT", null);
+        var self = this;
 
-        console.log("Starting module: " + this.name);
+        Log.info("Starting module: " + self.name);
+    
+        /* sendSocketNotification(notification, payload)
+         * Send a socket notification to the node helper.
+         */
+        self.sendSocketNotification("CONNECT", null);
 
-        //Update DOM every minute so that the time of the call updates and calls get removed after a certain time
 		setInterval(() => {
-			this.updateDom();
-        }, 1000);
+			self.updateDom();
+        }, updateInterval);
 
         // only clean old messages if keep_seconds is set
-        if (this.config.keep_seconds > 0){
+        if (self.config.keep_seconds > 0){
             setInterval(() => {
-                this.cleanOldMesssage();
+                self.cleanOldMesssage();
             }, 1000);
         }
     },
@@ -54,27 +71,32 @@ Module.register('MMM-kalliope',{
 
     // Override dom generator
 	getDom: function() {
+        var self = this;
+
         var wrapper = document.createElement("div");
 
-        if (this.messages.length  == 0){
+        if (self.messages.length  == 0){
             wrapper.innerHTML = "";
             return wrapper
         }
 
         var title = document.createElement("div");
+        var mycroftImage = document.createElement("img");
+        mycroftImage.src = self.config.image;;
         title.className = "light small dimmed";
-        title.innerHTML = this.config.title;
+        title.innerHTML = self.config.title;
+        wrapper.appendChild(mycroftImage)
         wrapper.appendChild(title);
 
         var table = document.createElement("table");
 
-        for(var i = 0; i < this.messages.length; i++){
+        for(var i = 0; i < self.messages.length; i++){
 
             var row = document.createElement("tr");
             table.appendChild(row);
 
             var messageCell = document.createElement("td");
-			messageCell.innerHTML =  this.messages[i].text
+			messageCell.innerHTML =  self.messages[i].text
 			row.appendChild(messageCell);
         }
         wrapper.appendChild(table);
@@ -83,32 +105,35 @@ Module.register('MMM-kalliope',{
     },
 
     socketNotificationReceived: function(notification, payload) {
-        // console.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
-        if (notification == "KALLIOPE"){
+        var self = this;
+
+        if (notification == "MYCROFT"){
             // create new message object
             var newMessage = new Message(payload);
-            this.messages.push(newMessage);
+            self.messages.push(newMessage);
 
             // clean old messages if list is too long
-            while(this.messages.length > this.config.max){
-                this.messages.shift();
+            while(self.messages.length > self.config.max){
+                self.messages.shift();
             }
 
-        }else{
+        } else {
             // forward the notification to all modules
-            this.sendNotification(notification, payload);
+            self.sendNotification(notification, payload);
         }
 
 
     },
 
     notificationReceived: function(notification, payload, sender) {
+        var self = this;
+
         if (sender) {
-            console.log(this.name + " received a module notification: " + notification
+            Log.log(self.name + " received a module notification: " + notification
             + " from sender: " + sender.name);
-            console.log(payload);
+            Log.log(payload);
         } else {
-            Log.log(this.name + " received a system notification: " + notification);
+            Log.log(self.name + " received a system notification: " + notification);
         }
     }
 });
