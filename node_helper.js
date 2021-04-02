@@ -33,8 +33,10 @@ module.exports = NodeHelper.create({
     },
 
     socketNotificationReceived: function(notification, payload) {
-		console.log(self.name + " received a socket notification: " + notification + " - Payload: " + payload);
-
+        var self = this;
+        if (notification === 'MYCROFT_SEND_MESSAGE') {
+            console.log(self.name + " received a socket notification: " + notification + " - Payload: " + payload);
+        }
     },
 
     isJsonString: function(str) {

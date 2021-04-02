@@ -44,7 +44,7 @@ Module.register('MMM-mycroft',{
 
 		setInterval(() => {
 			self.updateDom();
-        }, updateInterval);
+        }, self.config.updateInterval);
 
         // only clean old messages if keep_seconds is set
         if (self.config.keep_seconds > 0){
@@ -57,13 +57,13 @@ Module.register('MMM-mycroft',{
     cleanOldMesssage: function() {
         var currentDate = new Date();
 
-        for(var i = 0; i < this.messages.length; i++){
+        for(var i = 0; i < this.messages.length; i++) {
             var dif = currentDate.getTime() - this.messages[i].timestamp.getTime();
             var secondsFromCurrentDateToMessageDate = dif / 1000;
             var secondsBetweenDates = Math.abs(secondsFromCurrentDateToMessageDate);
 
             // delete the message if to old
-            if (secondsBetweenDates > this.config.keep_seconds){
+            if (secondsBetweenDates > this.config.keep_seconds) {
                 this.messages.splice(i, 1);
             }
         }
@@ -107,7 +107,7 @@ Module.register('MMM-mycroft',{
     socketNotificationReceived: function(notification, payload) {
         var self = this;
 
-        if (notification == "MYCROFT"){
+        if (notification == "MYCROFT_SEND_MESSAGE"){
             // create new message object
             var newMessage = new Message(payload);
             self.messages.push(newMessage);
@@ -116,13 +116,13 @@ Module.register('MMM-mycroft',{
             while(self.messages.length > self.config.max){
                 self.messages.shift();
             }
-
+        } else if (notification == "MYCROFT_DELETE_MESSAGE") {
+            // When Mycroft signals the AUDIO_OUTPUT_END remove the message from the screen
+            this.messages.splice(0, this.messages.length);
         } else {
             // forward the notification to all modules
             self.sendNotification(notification, payload);
         }
-
-
     },
 
     notificationReceived: function(notification, payload, sender) {
