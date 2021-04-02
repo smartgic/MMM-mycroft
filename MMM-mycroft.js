@@ -21,8 +21,7 @@ Module.register('MMM-mycroft',{
 
     defaults: {
 		updateInterval: 1000,
-        max: 5,
-        keep_seconds: 5,
+        maxMessages: 5,
         title: "Mycroft",
         image: "modules/MMM-mycroft/images/mycroft.png"
     },
@@ -46,27 +45,6 @@ Module.register('MMM-mycroft',{
 			self.updateDom();
         }, self.config.updateInterval);
 
-        // only clean old messages if keep_seconds is set
-        if (self.config.keep_seconds > 0){
-            setInterval(() => {
-                self.cleanOldMesssage();
-            }, 1000);
-        }
-    },
-
-    cleanOldMesssage: function() {
-        var currentDate = new Date();
-
-        for(var i = 0; i < this.messages.length; i++) {
-            var dif = currentDate.getTime() - this.messages[i].timestamp.getTime();
-            var secondsFromCurrentDateToMessageDate = dif / 1000;
-            var secondsBetweenDates = Math.abs(secondsFromCurrentDateToMessageDate);
-
-            // delete the message if to old
-            if (secondsBetweenDates > this.config.keep_seconds) {
-                this.messages.splice(i, 1);
-            }
-        }
     },
 
     // Override dom generator
@@ -113,7 +91,7 @@ Module.register('MMM-mycroft',{
             self.messages.push(newMessage);
 
             // clean old messages if list is too long
-            while(self.messages.length > self.config.max){
+            while(self.messages.length > self.config.maxMessages) {
                 self.messages.shift();
             }
         } else if (notification == "MYCROFT_DELETE_MESSAGE") {
