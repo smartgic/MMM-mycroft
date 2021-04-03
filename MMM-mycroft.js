@@ -60,9 +60,9 @@ Module.register('MMM-mycroft',{
 
         var title = document.createElement("div");
         var mycroftImage = document.createElement("img");
-        mycroftImage.style.maxWidth = '50%';
-        mycroftImage.style.maxHeight = '50%';
-        mycroftImage.style.opacity = 0.5;
+        mycroftImage.style.maxWidth = '100%';
+        mycroftImage.style.maxHeight = '100%';
+        mycroftImage.style.opacity = 0.7;
         mycroftImage.src = self.config.image;;
         title.className = "light small dimmed";
         title.innerHTML = self.config.title;
