@@ -15,11 +15,9 @@ module.exports = NodeHelper.create({
         self.expressApp.post('/mycroft', (request, response) => {
             var notification = request.body.notification
             var payload = request.body.payload
-            console.log(notification)
-            console.log(payload)
-            if (notification && payload) {
+
+            if (notification) {
                 validPayload = self.isJsonString(payload)
-                console.log(validPayload)
                 if (validPayload) {
                     self.sendSocketNotification(notification, validPayload);
                     response.send({'status': 'success'});
