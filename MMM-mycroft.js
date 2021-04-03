@@ -23,7 +23,7 @@ Module.register('MMM-mycroft',{
 		updateInterval: 1000,
         maxMessages: 5,
         title: "Mycroft",
-        image: "modules/MMM-mycroft/images/mycroft.png"
+        image: "modules/MMM-mycroft/images/equalizer.jpg"
     },
 
     /* Initiate messages list variable.
