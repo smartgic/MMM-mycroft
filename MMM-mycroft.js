@@ -23,7 +23,7 @@ Module.register('MMM-mycroft',{
 		updateInterval: 1000,
         maxMessages: 5,
         title: "Mycroft",
-        image: "modules/MMM-mycroft/images/equalizer.jpg"
+        image: "modules/MMM-mycroft/images/wakeword.png"
     },
 
     /* Initiate messages list variable.
@@ -61,7 +61,7 @@ Module.register('MMM-mycroft',{
         var title = document.createElement("div");
         var mycroftImage = document.createElement("img");
         mycroftImage.style.maxWidth = '100%';
-        mycroftImage.style.maxHeight = '30%';
+        mycroftImage.style.maxHeight = '100%';
         mycroftImage.style.opacity = 0.7;
         mycroftImage.src = self.config.image;;
         title.className = "light small dimmed";
