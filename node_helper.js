@@ -12,18 +12,21 @@ module.exports = NodeHelper.create({
 
         self.expressApp.use(express.json()); // support json encoded bodies
 
-        self.expressApp.post('/mycroft', (request, response) => {
-            var notification = request.body.notification
-            var payload = request.body.payload
-
-            if (notification) {
-                validPayload = self.isJsonString(payload)
-                if (validPayload) {
-                    self.sendSocketNotification(notification, validPayload);
-                    response.send({'status': 'success'});
+        this.expressApp.post('/mycroft', (req, res) => {
+            if (req.body.notification){
+                if (req.body.payload){
+                    payload = req.body.payload
+                    console.log(payload)
+                    if (this.isJsonString(payload)){
+                        payload = JSON.parse(req.body.payload);
+                    }
+                    this.sendSocketNotification(req.body.notification, payload);
+                    res.send({"status": "success"});
+                }else{
+                    res.send({"status": "failed", "error": "No payload given."});
                 }
-            } else {
-                response.send({'status': 'failed', 'error': 'no notification sent'});
+            }else{
+                res.send({"status": "failed", "error": "No notification given."});
             }
         });
     },
