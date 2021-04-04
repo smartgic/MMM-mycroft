@@ -17,12 +17,12 @@ class Message {
 
 Module.register('MMM-mycroft',{
 
-	requiresVersion: "2.12.0",
+	requiresVersion: '2.12.0',
 
     defaults: {
 		updateInterval: 1000,
-        maxMessages: 5,
-        title: "Mycroft",
+        maxMessages: 1,
+        title: 'Mycroft',
         image: "modules/MMM-mycroft/images/wakeword.png"
     },
 
@@ -34,12 +34,12 @@ Module.register('MMM-mycroft',{
     start: function() {
         var self = this;
 
-        Log.info("Starting module: " + self.name);
+        Log.info('Starting module: ' + self.name);
     
         /* sendSocketNotification(notification, payload)
          * Send a socket notification to the node helper.
          */
-        self.sendSocketNotification("CONNECT", null);
+        self.sendSocketNotification('CONNECT', null);
 
 		setInterval(() => {
 			self.updateDom();
@@ -50,10 +50,9 @@ Module.register('MMM-mycroft',{
     // Override dom generator
 	getDom: function() {
         var self = this;
-
         var wrapper = document.createElement("div");
 
-        if (self.messages.length  == 0){
+        if (self.messages.length  == 0) {
             wrapper.innerHTML = "";
             return wrapper
         }
@@ -71,8 +70,7 @@ Module.register('MMM-mycroft',{
 
         var table = document.createElement("table");
 
-        for(var i = 0; i < self.messages.length; i++){
-
+        for (var i = 0; i < self.messages.length; i++) {
             var row = document.createElement("tr");
             table.appendChild(row);
 
@@ -88,7 +86,7 @@ Module.register('MMM-mycroft',{
     socketNotificationReceived: function(notification, payload) {
         var self = this;
 
-        if (notification == "MYCROFT_SEND_MESSAGE"){
+        if (notification == "MYCROFT_SEND_MESSAGE") {
             // create new message object
             var newMessage = new Message(payload);
             self.messages.push(newMessage);
@@ -103,18 +101,6 @@ Module.register('MMM-mycroft',{
         } else {
             // forward the notification to all modules
             self.sendNotification(notification, payload);
-        }
-    },
-
-    notificationReceived: function(notification, payload, sender) {
-        var self = this;
-
-        if (sender) {
-            Log.log(self.name + " received a module notification: " + notification
-            + " from sender: " + sender.name);
-            Log.log(payload);
-        } else {
-            Log.log(self.name + " received a system notification: " + notification);
         }
     }
 });
