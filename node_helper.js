@@ -15,10 +15,10 @@ Payload examples:
   - '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "Deleting"}'
 */
 module.exports = NodeHelper.create({
-    apiKey: null,
 
     start: function() {
         var self = this;
+	    self.config = {}
 
         // Make sure the payload is a valid JSON.
         self.expressApp.use(express.json());
@@ -28,27 +28,30 @@ module.exports = NodeHelper.create({
             var notification = req.body.notification
             var payload = req.body.payload
 
-            // Check if requirements are fulfilled.
-            if (notification && req.body.payload) {
-                if (req.headers.hasOwnProperty('x-api-key')) {
-                    console.log(apiKey)
-                    console.log(req.headers.x-api-key)
-                }
-
-                // Send the notification and return a JSON to the client.
-                self.sendSocketNotification(notification, payload);
-                res.send({'status': True, 'payload': payload,      
-                          'notification': notification});
+            if (notification && payload) {
+                if (self.config.hasOwnProperty('apiKey') &&
+                    req.headers.hasOwnProperty('x-api-key')) {
+                    if (req.headers['x-api-key'] === self.config.apiKey) {
+                        self.sendSocketNotification(notification, payload);
+                        res.status(200).json({'status': true,
+                                              'payload': payload,      
+                                              'notification': notification});
+                    } else {
+                        res.status(401).json({'status': false,
+                                              'error': 'unauthorized'});
+		            }
+		        }
             } else {
-                res.send({'status': False, 'error': 'no notification sent'});
+                res.status(400).json({'status': false,
+                                      'error': 'no notification sent'});
             }
         });
     },
 
     socketNotificationReceived: function(notification, payload) {
-        if (notification === 'CONNECT') {
-		    apiKey = payload
+	var self = this;
+        if (notification === 'INIT') {
+	        self.config.apiKey = payload;
         }
     }
 });
-

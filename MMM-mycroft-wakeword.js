@@ -26,7 +26,7 @@ Module.register('MMM-mycroft-wakeword', {
         width: '100%',
         height: '100%',
         opacity: 1.0,
-        apiKey: null,
+        apiKey: '',
     },
 
     /* Initiate messages list variable.
@@ -42,7 +42,7 @@ Module.register('MMM-mycroft-wakeword', {
         /* sendSocketNotification(notification, payload)
          * Send a socket notification to the node helper.
          */
-        self.sendSocketNotification('CONNECT', self.config.apiKey);
+        self.sendSocketNotification('INIT', self.config.apiKey);
 
 		setInterval(() => {
 			self.updateDom();
@@ -90,7 +90,7 @@ Module.register('MMM-mycroft-wakeword', {
         var self = this;
 
         if (notification == 'MYCROFT_SEND_MESSAGE') {
-            var newMessage = new Message(payload.data);
+            var newMessage = new Message(payload);
             self.messages.push(newMessage);
 
             while (self.messages.length > self.config.maxMessages) {

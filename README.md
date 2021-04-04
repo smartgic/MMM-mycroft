@@ -41,7 +41,7 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
 | `height`     | `100%`         | Image max height size.                                                            |
 | `opacity`    | `1.0`          | Image opacity.                                                                    |
 | `title`      | `Mycroft AI`   | The name placed above the received messages.                                      |
-| `apiKey`     | `null`         | API key required to `POST` a notification. Recommended however, remains optional. |
+| `apiKey`     | `None`         | API key required to `POST` a notification.                                        |
 
 ## API
 
