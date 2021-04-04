@@ -41,8 +41,7 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
 
 ## API
 
-This module expose an extra route, `/mycroft`.
-#### POST /mycroft
+This module expose an extra route, `/mycroft` which only supports `POST` method.
 
 | Parameter    | Description                                                                                           |
 |--------------|-------------------------------------------------------------------------------------------------------|
@@ -66,12 +65,6 @@ This command deletes the image on the mirror.
 ```bash
 $ curl -H "Content-Type: application/json" -X POST -d '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "null"}' http://192.168.1.97:8080/mycroft
 ```
-
-## How to control my MM module from this module
-
-All notifications that are not concerned by this module (when the notification name is not "KALLIOPE") will be send to other installed module on your Magic Mirror.
-
-To add a notification receptor to your module, you just need to implement the `notificationReceived` method like bellow.
 
 ## Credits
 
