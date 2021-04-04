@@ -14,15 +14,18 @@ class Message {
     }
 }
 
-Module.register('MMM-mycroft-wakeword',{
+Module.register('MMM-mycroft-wakeword', {
 
 	requiresVersion: '2.12.0',
 
     defaults: {
-		updateInterval: 1000,
+        updateInterval: 1000,
         maxMessages: 1,
-        title: 'Mycroft',
-        image: 'modules/MMM-mycroft-wakeword/images/wakeword.png'
+        title: 'Mycroft AI',
+        image: 'modules/MMM-mycroft-wakeword/images/wakeword.png',
+        width: '100%',
+        height: '100%',
+        opacity: 0.7
     },
 
     /* Initiate messages list variable.
@@ -57,14 +60,14 @@ Module.register('MMM-mycroft-wakeword',{
         }
 
         var title = document.createElement('div');
-        var mycroftImage = document.createElement('img');
-        mycroftImage.style.maxWidth = '100%';
-        mycroftImage.style.maxHeight = '100%';
-        mycroftImage.style.opacity = 0.7;
-        mycroftImage.src = self.config.image;;
+        var image = document.createElement('img');
+        image.style.maxWidth = self.config.width;
+        image.style.maxHeight = self.config.height;
+        image.style.opacity = self.config.opacity;
+        image.src = self.config.image;
         title.className = 'light small dimmed';
         title.innerHTML = self.config.title;
-        wrapper.appendChild(mycroftImage)
+        wrapper.appendChild(image)
         wrapper.appendChild(title);
 
         var table = document.createElement('table');
