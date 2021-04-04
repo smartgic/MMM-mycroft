@@ -10,16 +10,16 @@ module.exports = NodeHelper.create({
 
         console.log(self.name + ' node helper is started');
 
-        self.expressApp.use(express.json()); // support json encoded bodies
+        self.expressApp.use(express.json());
 
         this.expressApp.post('/mycroft', (req, res) => {
             var notification = req.body.notification
             var payload = req.body.payload
 
             if (notification && payload) {
-                this.sendSocketNotification(notification, payload);
+                self.sendSocketNotification(notification, payload);
                 res.send({'status': 'success', 'payload': payload,      
-                         'notification': notification});
+                          'notification': notification});
             } else {
                 res.send({'status': 'fail', 'error': 'no notification sent'});
             }
