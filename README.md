@@ -1,1 +1,1 @@
-# MMM-mycroft
+# MMM-mycroft-wakeword

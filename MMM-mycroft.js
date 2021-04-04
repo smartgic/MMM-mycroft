@@ -15,7 +15,7 @@ class Message {
     }
 }
 
-Module.register('MMM-mycroft',{
+Module.register('MMM-mycroft-wakeword',{
 
 	requiresVersion: '2.12.0',
 
@@ -23,7 +23,7 @@ Module.register('MMM-mycroft',{
 		updateInterval: 1000,
         maxMessages: 1,
         title: 'Mycroft',
-        image: "modules/MMM-mycroft/images/wakeword.png"
+        image: "modules/MMM-mycroft-wakeword/images/wakeword.png"
     },
 
     /* Initiate messages list variable.
