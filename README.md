@@ -24,6 +24,7 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
     position: "lower_third",
     config: {
         title: "Mycroft AI",
+        apiKey: "en323q9WBNMK3Q04WIPNEAsdfhesammhp44",
         maxMessages: 1,
         opacity: 0.5
     }
@@ -32,18 +33,23 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
 
 ## Configuration
 
-| Option       | Default        | Description                                                              |
-|--------------|----------------|--------------------------------------------------------------------------|
-| maxMessages  | `5`            | How many messages should be displayed on the screen.                     |
-| image        | `wakeword.png` | Image file to use *(the image should be within the `images` directory)*. |
-| width        | `100%`         | Image max width size.                                                    |
-| height       | `100%`         | Image max height size.                                                   |
-| opacity      | `1.0`          | Image opacity.                                                           |
-| title        | `Mycroft AI`   | The name placed above the received messages .                            |
+| Option       | Default        | Description                                                                       |
+|--------------|----------------|-----------------------------------------------------------------------------------|
+| `maxMessages`| `5`            | How many messages should be displayed on the screen.                              |
+| `image`      | `wakeword.png` | Image file to use *(the image should be within the `images` directory)*.          |
+| `width`      | `100%`         | Image max width size.                                                             |
+| `height`     | `100%`         | Image max height size.                                                            |
+| `opacity`    | `1.0`          | Image opacity.                                                                    |
+| `title`      | `Mycroft AI`   | The name placed above the received messages.                                      |
+| `apiKey`     | `null`         | API key required to `POST` a notification. Recommended however, remains optional. |
 
 ## API
 
 This module expose an extra route, `/mycroft` which only supports `POST` method.
+
+| Header    | Description                                                                          |
+|-----------|--------------------------------------------------------------------------------------|
+| X-Api-Key | This should match the `apiKey` value registered into MagicMirror configuration file. |
 
 | Parameter    | Description                                                                                           |
 |--------------|-------------------------------------------------------------------------------------------------------|
@@ -59,13 +65,21 @@ Only two notifications are supported:
 This command displays an image on the mirror with the `Listening` message.
 
 ```bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"notification":"MYCROFT_SEND_MESSAGE", "payload": "Listening"}' http://192.168.1.97:8080/mycroft
+$ curl -H "Content-Type: application/json" \
+    -H "X-Api-Key: en323q9WBNMK3Q04WIPNEAsdfhesammhp44" \
+    -X POST \
+    -d '{"notification":"MYCROFT_SEND_MESSAGE", "payload": "Listening"}' \
+    http://192.168.1.97:8080/mycroft
 ```
 
 This command deletes the image on the mirror.
 
 ```bash
-$ curl -H "Content-Type: application/json" -X POST -d '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "null"}' http://192.168.1.97:8080/mycroft
+$ curl -H "Content-Type: application/json" \
+    -H "X-Api-Key: en323q9WBNMK3Q04WIPNEAsdfhesammhp44" \
+    -X POST \
+    -d '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "null"}' \
+    http://192.168.1.97:8080/mycroft
 ```
 
 ## Credits

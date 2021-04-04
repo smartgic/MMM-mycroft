@@ -24,10 +24,15 @@ module.exports = NodeHelper.create({
         // Create the new route
         this.expressApp.post('/mycroft', (req, res) => {
             var notification = req.body.notification
-            var payload = req.body.payload
+            var payload = {}
 
-            // Check if requirements are provided.
-            if (notification && payload) {
+            // Check if requirements are fulfilled.
+            if (notification && req.body.payload) {
+                payload['data'] = req.body.payload
+                if ('x-api-key' in req.headers) {
+                    payload['api_key'] = req.headers.x-api-key
+                }
+
                 // Send the notification and return a JSON to the client.
                 self.sendSocketNotification(notification, payload);
                 res.send({'status': True, 'payload': payload,      

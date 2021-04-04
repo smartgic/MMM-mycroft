@@ -25,7 +25,8 @@ Module.register('MMM-mycroft-wakeword', {
         image: 'wakeword.png',
         width: '100%',
         height: '100%',
-        opacity: 1.0
+        opacity: 1.0,
+        apiKey: null,
     },
 
     /* Initiate messages list variable.
@@ -87,16 +88,31 @@ Module.register('MMM-mycroft-wakeword', {
 
     socketNotificationReceived: function(notification, payload) {
         var self = this;
+        var authentication = false;
 
-        if (notification == 'MYCROFT_SEND_MESSAGE') {
-            var newMessage = new Message(payload);
-            self.messages.push(newMessage);
-
-            while (self.messages.length > self.config.maxMessages) {
-                self.messages.shift();
+        if (self.config.apiKey) {
+            if ('api_key' in payload && payload['api_key'] === self.config.apiKey) {
+                authentication = true;
+            } else {
+                authentication = false;
             }
-        } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
-            this.messages.splice(0, this.messages.length);
+        } else {
+            authentication = true;
+        }
+
+        if (authentication) {
+            if (notification == 'MYCROFT_SEND_MESSAGE') {
+                var newMessage = new Message(payload.data);
+                self.messages.push(newMessage);
+
+                while (self.messages.length > self.config.maxMessages) {
+                    self.messages.shift();
+                }
+            } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
+                self.messages.splice(0, self.messages.length);
+            }
+        } else {
+            LOG.info(self.name + ': X-Api-Key header is required')
         }
     }
 });
