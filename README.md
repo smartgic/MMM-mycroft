@@ -5,6 +5,8 @@
 
 This module interacts with the [MagicMirror](https://magicmirror.builders/) to let you know if [Mycroft AI](https://mycroft.ai/) is listening. When a wake word is detected, an image is displayed and when the recording is done the image disappears.
 
+<img src='docs/screenshot.png' width='450'/>
+
 ## Installation
 
 Clone this repository into `~/MagicMirror/modules` *(replace with your path)* directory.
