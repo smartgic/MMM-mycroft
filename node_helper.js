@@ -17,7 +17,7 @@ Payload examples:
 module.exports = NodeHelper.create({
     start: function() {
         var self = this;
-	    self.config = {}
+        self.config = {}
 
         // Make sure the payload is a valid JSON.
         self.expressApp.use(express.json());
@@ -54,10 +54,10 @@ module.exports = NodeHelper.create({
     },
 
     socketNotificationReceived: function(notification, payload) {
-	    var self = this;
+        var self = this;
 
         if (notification === 'INIT') {
-	        self.config.apiKey = payload;
+            self.config.apiKey = payload;
         }
     }
 });

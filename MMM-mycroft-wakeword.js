@@ -17,7 +17,7 @@ class Message {
 
 Module.register('MMM-mycroft-wakeword', {
 
-	requiresVersion: '2.12.0',
+    requiresVersion: '2.12.0',
 
     defaults: {
         maxMessages: 5,
@@ -44,10 +44,9 @@ Module.register('MMM-mycroft-wakeword', {
          */
         self.sendSocketNotification('INIT', self.config.apiKey);
 
-		setInterval(() => {
-			self.updateDom();
+        setInterval(() => {
+            self.updateDom();
         }, 1000);
-
     },
 
     // Override dom generator
@@ -78,8 +77,8 @@ Module.register('MMM-mycroft-wakeword', {
             table.appendChild(row);
 
             var messageCell = document.createElement('td');
-			messageCell.innerHTML =  self.messages[i].text
-			row.appendChild(messageCell);
+            messageCell.innerHTML =  self.messages[i].text
+            row.appendChild(messageCell);
         }
         wrapper.appendChild(table);
 
