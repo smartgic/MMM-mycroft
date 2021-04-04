@@ -99,6 +99,5 @@ Module.register('MMM-mycroft-wakeword', {
         } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
             self.messages.splice(0, self.messages.length);
         }
-
     }
 });

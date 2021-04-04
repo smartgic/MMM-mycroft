@@ -15,7 +15,6 @@ Payload examples:
   - '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "Deleting"}'
 */
 module.exports = NodeHelper.create({
-
     start: function() {
         var self = this;
 	    self.config = {}
@@ -28,9 +27,15 @@ module.exports = NodeHelper.create({
             var notification = req.body.notification
             var payload = req.body.payload
 
+            // Check if X-Api-Key header is part of the request.
+            if (!req.headers.hasOwnProperty('x-api-key')) {
+                res.status(401).json({'status': false,
+                'error': 'x-api-key header is missing'});
+            }
+
             if (notification && payload) {
-                if (self.config.hasOwnProperty('apiKey') &&
-                    req.headers.hasOwnProperty('x-api-key')) {
+                if (self.config.hasOwnProperty('apiKey')) {
+                    // Compare X-Api-Key and API key from configuration.
                     if (req.headers['x-api-key'] === self.config.apiKey) {
                         self.sendSocketNotification(notification, payload);
                         res.status(200).json({'status': true,
@@ -43,13 +48,14 @@ module.exports = NodeHelper.create({
 		        }
             } else {
                 res.status(400).json({'status': false,
-                                      'error': 'no notification sent'});
+                                      'error': 'bad request'});
             }
         });
     },
 
     socketNotificationReceived: function(notification, payload) {
-	var self = this;
+	    var self = this;
+
         if (notification === 'INIT') {
 	        self.config.apiKey = payload;
         }
