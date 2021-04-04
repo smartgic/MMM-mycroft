@@ -20,10 +20,9 @@ Module.register('MMM-mycroft-wakeword', {
 	requiresVersion: '2.12.0',
 
     defaults: {
-        updateInterval: 1000,
-        maxMessages: 1,
+        maxMessages: 5,
         title: 'Mycroft AI',
-        image: 'modules/MMM-mycroft-wakeword/images/wakeword.png',
+        image: 'wakeword.png',
         width: '100%',
         height: '100%',
         opacity: 1.0
@@ -46,7 +45,7 @@ Module.register('MMM-mycroft-wakeword', {
 
 		setInterval(() => {
 			self.updateDom();
-        }, self.config.updateInterval);
+        }, 1000);
 
     },
 
@@ -65,7 +64,7 @@ Module.register('MMM-mycroft-wakeword', {
         image.style.maxWidth = self.config.width;
         image.style.maxHeight = self.config.height;
         image.style.opacity = self.config.opacity;
-        image.src = self.config.image;
+        image.src = 'modules/' + self.name + '/images/' + self.config.image;
         title.className = 'light small dimmed';
         title.innerHTML = self.config.title;
         wrapper.appendChild(image)
