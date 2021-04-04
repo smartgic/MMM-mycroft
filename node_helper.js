@@ -1,30 +1,41 @@
-/* global Module */
+/* node helper */
 
 const NodeHelper = require('node_helper')
 const express = require('express')
 
-module.exports = NodeHelper.create({
+/* This helper will expose a new route to MagicMirror.
+The route is /mycroft and will only accept a POST request with a JSON payload.
 
+Only two notifications are supported:
+  - MYCROFT_SEND_MESSAGE
+  - MYCROFT_DELETE_MESSAGE
+
+Payload examples:
+  - '{"notification":"MYCROFT_SEND_MESSAGE", "payload": "Listening"}'
+  - '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "Deleting"}'
+*/
+module.exports = NodeHelper.create({
     start: function() {
         var self = this;
 
-        console.log(self.name + ' node helper is started');
-
+        // Make sure the payload is a valid JSON.
         self.expressApp.use(express.json());
 
+        // Create the new route
         this.expressApp.post('/mycroft', (req, res) => {
             var notification = req.body.notification
             var payload = req.body.payload
 
+            // Check if requirements are provided.
             if (notification && payload) {
+                // Send the notification and return a JSON to the client.
                 self.sendSocketNotification(notification, payload);
-                res.send({'status': 'success', 'payload': payload,      
+                res.send({'status': True, 'payload': payload,      
                           'notification': notification});
             } else {
-                res.send({'status': 'fail', 'error': 'no notification sent'});
+                res.send({'status': False, 'error': 'no notification sent'});
             }
         });
     }
-
 });
 

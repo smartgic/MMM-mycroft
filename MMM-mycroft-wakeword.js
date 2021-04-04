@@ -8,6 +8,7 @@
  * MIT Licensed.
  */
 
+// Message structure
 class Message {
     constructor(text) {
         this.text = text;
@@ -25,7 +26,7 @@ Module.register('MMM-mycroft-wakeword', {
         image: 'modules/MMM-mycroft-wakeword/images/wakeword.png',
         width: '100%',
         height: '100%',
-        opacity: 0.7
+        opacity: 1.0
     },
 
     /* Initiate messages list variable.
