@@ -11,7 +11,6 @@
 class Message {
     constructor(text) {
         this.text = text;
-        this.timestamp = new Date();
     }
 }
 
@@ -23,7 +22,7 @@ Module.register('MMM-mycroft-wakeword',{
 		updateInterval: 1000,
         maxMessages: 1,
         title: 'Mycroft',
-        image: "modules/MMM-mycroft-wakeword/images/wakeword.png"
+        image: 'modules/MMM-mycroft-wakeword/images/wakeword.png'
     },
 
     /* Initiate messages list variable.
@@ -50,31 +49,31 @@ Module.register('MMM-mycroft-wakeword',{
     // Override dom generator
 	getDom: function() {
         var self = this;
-        var wrapper = document.createElement("div");
+        var wrapper = document.createElement('div');
 
         if (self.messages.length  == 0) {
-            wrapper.innerHTML = "";
+            wrapper.innerHTML = '';
             return wrapper
         }
 
-        var title = document.createElement("div");
-        var mycroftImage = document.createElement("img");
+        var title = document.createElement('div');
+        var mycroftImage = document.createElement('img');
         mycroftImage.style.maxWidth = '100%';
         mycroftImage.style.maxHeight = '100%';
         mycroftImage.style.opacity = 0.7;
         mycroftImage.src = self.config.image;;
-        title.className = "light small dimmed";
+        title.className = 'light small dimmed';
         title.innerHTML = self.config.title;
         wrapper.appendChild(mycroftImage)
         wrapper.appendChild(title);
 
-        var table = document.createElement("table");
+        var table = document.createElement('table');
 
         for (var i = 0; i < self.messages.length; i++) {
-            var row = document.createElement("tr");
+            var row = document.createElement('tr');
             table.appendChild(row);
 
-            var messageCell = document.createElement("td");
+            var messageCell = document.createElement('td');
 			messageCell.innerHTML =  self.messages[i].text
 			row.appendChild(messageCell);
         }
@@ -86,21 +85,15 @@ Module.register('MMM-mycroft-wakeword',{
     socketNotificationReceived: function(notification, payload) {
         var self = this;
 
-        if (notification == "MYCROFT_SEND_MESSAGE") {
-            // create new message object
+        if (notification == 'MYCROFT_SEND_MESSAGE') {
             var newMessage = new Message(payload);
             self.messages.push(newMessage);
 
-            // clean old messages if list is too long
-            while(self.messages.length > self.config.maxMessages) {
+            while (self.messages.length > self.config.maxMessages) {
                 self.messages.shift();
             }
-        } else if (notification == "MYCROFT_DELETE_MESSAGE") {
-            // When Mycroft signals the AUDIO_OUTPUT_END remove the message from the screen
+        } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
             this.messages.splice(0, this.messages.length);
-        } else {
-            // forward the notification to all modules
-            self.sendNotification(notification, payload);
         }
     }
 });
