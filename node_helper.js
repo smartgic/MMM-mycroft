@@ -15,6 +15,8 @@ Payload examples:
   - '{"notification":"MYCROFT_DELETE_MESSAGE", "payload": "Deleting"}'
 */
 module.exports = NodeHelper.create({
+    apiKey: null,
+
     start: function() {
         var self = this;
 
@@ -24,13 +26,13 @@ module.exports = NodeHelper.create({
         // Create the new route
         this.expressApp.post('/mycroft', (req, res) => {
             var notification = req.body.notification
-            var payload = {}
+            var payload = req.body.payload
 
             // Check if requirements are fulfilled.
             if (notification && req.body.payload) {
-                payload['data'] = req.body.payload
-                if ('x-api-key' in req.headers) {
-                    payload['api_key'] = req.headers.x-api-key
+                if (req.headers.hasOwnProperty('x-api-key')) {
+                    console.log(apiKey)
+                    console.log(req.headers.x-api-key)
                 }
 
                 // Send the notification and return a JSON to the client.
@@ -41,6 +43,12 @@ module.exports = NodeHelper.create({
                 res.send({'status': False, 'error': 'no notification sent'});
             }
         });
+    },
+
+    socketNotificationReceived: function(notification, payload) {
+        if (notification === 'CONNECT') {
+		    apiKey = payload
+        }
     }
 });
 

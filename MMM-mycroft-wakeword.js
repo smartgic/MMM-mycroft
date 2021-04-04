@@ -42,7 +42,7 @@ Module.register('MMM-mycroft-wakeword', {
         /* sendSocketNotification(notification, payload)
          * Send a socket notification to the node helper.
          */
-        self.sendSocketNotification('CONNECT', null);
+        self.sendSocketNotification('CONNECT', self.config.apiKey);
 
 		setInterval(() => {
 			self.updateDom();
@@ -88,31 +88,17 @@ Module.register('MMM-mycroft-wakeword', {
 
     socketNotificationReceived: function(notification, payload) {
         var self = this;
-        var authentication = false;
 
-        if (self.config.apiKey) {
-            if ('api_key' in payload && payload['api_key'] === self.config.apiKey) {
-                authentication = true;
-            } else {
-                authentication = false;
+        if (notification == 'MYCROFT_SEND_MESSAGE') {
+            var newMessage = new Message(payload.data);
+            self.messages.push(newMessage);
+
+            while (self.messages.length > self.config.maxMessages) {
+                self.messages.shift();
             }
-        } else {
-            authentication = true;
+        } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
+            self.messages.splice(0, self.messages.length);
         }
 
-        if (authentication) {
-            if (notification == 'MYCROFT_SEND_MESSAGE') {
-                var newMessage = new Message(payload.data);
-                self.messages.push(newMessage);
-
-                while (self.messages.length > self.config.maxMessages) {
-                    self.messages.shift();
-                }
-            } else if (notification == 'MYCROFT_DELETE_MESSAGE') {
-                self.messages.splice(0, self.messages.length);
-            }
-        } else {
-            LOG.info(self.name + ': X-Api-Key header is required')
-        }
     }
 });
