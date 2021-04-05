@@ -33,6 +33,15 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
 
 ## Configuration
 
+In order to reach the `/mycroft` route on your MagicMirror, you need to allow the remote connection for a specific IP address or for a netwoek range in your MagicMirror by changing the `~/MagicMirror/config/config.js` *(replace with your path)*.
+
+```js
+ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.1/24"]
+```
+
+The example above will allows all the connection from `192.168.1.0/24` network to perform remote connections.
+
+
 | Option       | Default        | Description                                                                       |
 |--------------|----------------|-----------------------------------------------------------------------------------|
 | `maxMessages`| `5`            | How many messages should be displayed on the screen.                              |
