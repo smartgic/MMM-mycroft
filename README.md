@@ -7,6 +7,8 @@ This module interacts with the [MagicMirror](https://magicmirror.builders/) to l
 
 <img src='docs/screenshot.png' width='450'/>
 
+The [Mycroft AI MagicMirror² wake word skill](https://github.com/smartgic/mycroft-magicmirror-wakeword-skill) interacts with this MagicMirror² module which is why this skill is required on the Mycroft AI device.
+
 ## Installation
 
 Clone this repository into `~/MagicMirror/modules` *(replace with your path)* directory.
