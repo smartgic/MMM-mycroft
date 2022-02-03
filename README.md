@@ -1,11 +1,11 @@
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-pink.svg?style=flat)](https://github.com/smartgic/MMM-mycroft-wakeword/pulls) [![MagicMirror module](https://img.shields.io/badge/MagicMirror-module-blue)](https://magicmirror.builders/) [![Discord](https://img.shields.io/discord/809074036733902888)](https://discord.com/invite/sHM3Duz5d3) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-pink.svg?style=flat)](https://github.com/smartgic/MMM-mycroft-wakeword/pulls) [![MagicMirror module](https://img.shields.io/badge/MagicMirror-module-blue)](https://magicmirror.builders/) [![Discord](https://img.shields.io/discord/809074036733902888)](https://discord.com/invite/sHM3Duz5d3)
 
 # MMM-mycroft-wakeword
 
 This module interacts with the [MagicMirror](https://magicmirror.builders/) to let you know if [Mycroft AI](https://mycroft.ai/) is listening. When a wake word is detected, an image is displayed and when the recording is done the image disappears.
 
-<img src='docs/screenshot.png' width='450'/>
+<img src='docs/screenshot.png' width='800'/>
 
 The [Mycroft AI MagicMirror² wake word skill](https://github.com/smartgic/mycroft-magicmirror-wakeword-skill) interacts with this MagicMirror² module which is why this skill is required on the Mycroft AI device.
 
@@ -14,8 +14,8 @@ The [Mycroft AI MagicMirror² wake word skill](https://github.com/smartgic/mycro
 Clone this repository into `~/MagicMirror/modules` *(replace with your path)* directory.
 
 ```bash
-$ cd ~/MagicMirror/modules
-$ git clone https://github.com/smartgic/MMM-mycroft-wakeword.git
+cd ~/MagicMirror/modules
+git clone https://github.com/smartgic/MMM-mycroft-wakeword.git
 ```
 
 Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` *(replace with your path)*.
