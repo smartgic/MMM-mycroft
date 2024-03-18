@@ -24,10 +24,10 @@ Then update the MagicMirror configuration file `~/MagicMirror/config/config.js` 
     module: "MMM-ovos-wakeword",
     position: "lower_third",
     config: {
-        title: "Open Voice OS",
-        apiKey: "en323q9WBNMK3Q04WIPNEAsdfhesammhp44",
-        maxMessages: 1,
-        opacity: 0.5
+      title: "Open Voice OS",
+      apiKey: "en323q9WBNMK3Q04WIPNEAsdfhesammhp44",
+      maxMessages: 1,
+      opacity: 0.5
     }
 }
 ```
