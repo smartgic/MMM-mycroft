@@ -6,7 +6,7 @@ This module interacts with the [MagicMirror](https://magicmirror.builders/) to l
 
 <img src='docs/screenshot.png' width='800'/>
 
-The [Open Voice OS MagicMirror² wake word skill](https://github.com/smartgic/ovos-magicmirror-wakeword-skill) interacts with this MagicMirror² module which is why this skill is required on the Open Voice OS device.
+The [Open Voice OS MagicMirror² wake word skill](https://github.com/smartgic/skill-ovos-mm-wakeword) interacts with this MagicMirror² module which is why this skill is required on the Open Voice OS device.
 
 ## Installation
 
